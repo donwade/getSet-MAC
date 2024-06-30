@@ -9,7 +9,9 @@
 
 #define MAC_ADDR_SIZE 6
 
-uint8_t mac_address[6] = {0x00, 0x11, 0x22, 0x33, 0x44, 0x55};
+//  1 = ESP32 weather station in kitchen
+
+uint8_t mac_address[6] = {0xC0, 0xDE, 0xF0, 0x0D, 0x00, 0x01};
 
 static void get_mac_address()
 {
@@ -20,6 +22,8 @@ static void get_mac_address()
 
 static void set_mac_address(uint8_t *mac)
 {
+
+    assert( (mac_address[0] & 1) == 0 ); // least bit of msb of mac must be zero
     esp_err_t err = esp_wifi_set_mac(ESP_IF_WIFI_STA, mac);
     if (err == ESP_OK) {
         ESP_LOGI("MAC address", "MAC address successfully set to %02x:%02x:%02x:%02x:%02x:%02x", mac[0], mac[1], mac[2], mac[3], mac[4], mac[5]);
